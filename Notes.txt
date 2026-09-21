@@ -1,0 +1,58 @@
+In Java, a **Collection** is mainly used to store and manage elements, whereas a **Stream** is used to process those elements.
+
+We can create a Stream from a Collection using the `stream()` method.
+
+A Stream does not store the elements or create a new data structure. Instead, it represents a **pipeline of operations** that describes how the elements should be processed.
+
+A Stream pipeline has three main parts:
+
+1. **Source** – where the elements come from, such as a Collection.
+2. **Intermediate operations** – operations like `filter()`, `map()`, `sorted()`, and `distinct()`.
+3. **Terminal operation** – an operation that produces the final result or performs an action, such as `collect()`, `forEach()`, `count()`, or `findFirst()`.
+
+For example:
+
+```java
+employees.stream()
+         .filter(e -> e.getAge() > 30)
+         .map(Employee::getName)
+         .collect(Collectors.toList());
+```
+
+Here, `employees` is the source, `filter()` and `map()` are intermediate operations, and `collect()` is the terminal operation.
+
+Intermediate operations are **lazy**, which means they don't start processing the elements immediately. They mainly build the stream pipeline. Actual processing starts when the terminal operation is called.
+
+Streams also use **pipelined processing**. Instead of creating a separate collection after every operation, elements can flow through the operations in the pipeline.
+
+Conceptually:
+
+```text
+Employee → filter → map → collect
+Employee → filter → map → collect
+Employee → filter → map → collect
+```
+
+This is different from thinking of it as:
+
+
+All employees → filter → new collection
+new collection → map → another collection
+another collection → collect
+```
+
+Streams can also use **short-circuiting operations** such as `findFirst()`, `findAny()`, `limit()`, and `anyMatch()`. These can stop processing once the required result is found.
+
+Another important point is that Stream operations generally **don't modify the original Collection**. The Stream processes the data and can produce a new result.
+
+Also, a Stream is generally **single-use**. Once a terminal operation has been executed, that Stream cannot normally be reused.
+
+So, in simple terms:
+
+**Collection → stores the data**
+
+**Stream → processes the data**
+
+**Stream = Source + Intermediate Operations + Terminal Operation**
+
+And the important characteristics are **lazy evaluation, pipelined processing, and the ability to perform operations without modifying the original data source**.
